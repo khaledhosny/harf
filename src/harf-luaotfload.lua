@@ -49,14 +49,9 @@ local function harf_reader(spec)
   end
 
   -- Rewrite luaotfload specification to look like what we expect.
-  local specification = {
-    features = features,
-    options = options,
-    path = spec.resolved or spec.name,
-    index = spec.sub and spec.sub - 1 or 0,
-    size = spec.size,
-    specification = spec.specification,
-  }
+  local specification = table.copy(spec)
+  specification.features = features
+  specification.options = options
 
   for key, val in next, rawfeatures do
     if key == "language" then val = harf.Language.new(val) end
