@@ -1,3 +1,12 @@
+local module = {
+  name        = "harf-luaotfload",
+  description = "Harf luaotfload integration",
+  version     = "0.4.2",
+  date        = "2019-09-07",
+  license     = "GPL v2.0"
+}
+luatexbase.provides_module(module)
+
 if not pcall(require, "luaharfbuzz") then
   luatexbase.module_error("harf", "'luaharfbuzz' module is required.")
 end

@@ -1,3 +1,12 @@
+local module = {
+  name        = "harf-load",
+  description = "Harf font loading",
+  version     = "0.4.2",
+  date        = "2019-09-07",
+  license     = "GPL v2.0"
+}
+luatexbase.provides_module(module)
+
 local hb = require("harf-base")
 
 local hbfonts = hb.fonts

@@ -1,3 +1,12 @@
+local module = {
+  name        = "harf-base",
+  description = "Harf base/shared code",
+  version     = "0.4.2",
+  date        = "2019-09-07",
+  license     = "GPL v2.0"
+}
+luatexbase.provides_module(module)
+
 local hb = require("luaharfbuzz")
 
 -- The engine’s TFM structure indexes glyphs by character codes, which means
