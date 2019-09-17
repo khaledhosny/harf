@@ -229,8 +229,7 @@ local function itemize(head, direction)
 
     local fontdata = currfontid and font.getfont(currfontid)
     local hbdata   = fontdata and fontdata.hb
-    local spec     = hbdata and hbdata.spec
-    local options  = spec and spec.options
+    local options  = hbdata and hbdata.options
     local texlig   = options and options.texlig
     if texlig then
       local replacement = trep[code]
@@ -263,9 +262,7 @@ local function itemize(head, direction)
     -- If script is not resolved yet, and the font has a "script" option, use
     -- it.
     if (script == common_s or script == inherited_s) and hbdata then
-      local spec = hbdata.spec
-      local features = spec.features
-      local options = spec.options
+      local options = hbdata.options
       script = options.script and hb.Script.new(options.script) or script
     end
 
@@ -415,10 +412,9 @@ shape = function(run)
 
   local fontdata = font.getfont(fontid)
   local hbdata = fontdata.hb
+  local features = hbdata.features
+  local options = hbdata.options
   local palette = hbdata.palette
-  local spec = hbdata.spec
-  local features = spec.features
-  local options = spec.options
   local hbshared = hbdata.shared
   local hbfont = hbshared.font
   local hbface = hbshared.face
@@ -837,7 +833,7 @@ local function shape_run(head, current, run)
     -- shaping.
     local fontid = run.font
     local fontdata = font.getfont(fontid)
-    local options = fontdata.hb.spec.options
+    local options = fontdata.hb.options
     local color = options and options.color and hex_to_rgba(options.color)
 
     local glyphs = shape(run)

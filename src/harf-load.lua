@@ -193,7 +193,6 @@ local tlig = hb.texlig
 
 local function scalefont(data, spec)
   local size = spec.size
-  local options = spec.options
   local hbface = data.face
   local hbfont = data.font
   local upem = data.upem
@@ -201,6 +200,32 @@ local function scalefont(data, spec)
 
   if size < 0 then
     size = -655.36 * size
+  end
+
+  -- Extract features (that we pass to HarfBuzz) from the rest of the options.
+  -- Mostly a heuristic.
+  local features = {}
+  local options = {}
+  local rawfeatures = spec.features and spec.features.raw or {}
+  for key, val in next, rawfeatures do
+    if key == "language" then val = hb.Language.new(val) end
+    if key == "colr" then key = "palette" end
+    if key == "tlig" then key = "texlig" end
+    if key:len() == 4 then
+      -- 4-letter options are likely font features, but not always, so we do
+      -- some checks below. We put non feature options in the `options` dict.
+      if val == true or val == false then
+        val = (val and '+' or '-')..key
+        features[#features + 1] = hb.Feature.new(val)
+      elseif tonumber(val) then
+        val = '+'..key..'='..tonumber(val) - 1
+        features[#features + 1] = hb.Feature.new(val)
+      else
+        options[key] = val
+      end
+    else
+      options[key] = val
+    end
   end
 
   -- We shape in font units (at UPEM) and then scale output with the desired
@@ -317,7 +342,8 @@ local function scalefont(data, spec)
     },
     hb = {
       scale = scale,
-      spec = spec,
+      features = features,
+      options = options,
       palette = palette,
       shared = data,
       letterspace = letterspace,

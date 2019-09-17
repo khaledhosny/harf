@@ -39,41 +39,13 @@ local readers = {
 }
 
 local function harf_reader(spec)
-  local features = {}
-  local options = {}
-  local rawfeatures = spec.features and spec.features.raw or {}
-
-  local mode = rawfeatures.mode
+  local features = spec.features and spec.features.raw
+  local mode = features and features.mode
   if mode and mode ~= "harf" then
     return readers[spec.forced](spec)
   end
 
-  -- Rewrite luaotfload specification to look like what we expect.
-  local specification = table.copy(spec)
-  specification.features = features
-  specification.options = options
-
-  for key, val in next, rawfeatures do
-    if key == "language" then val = harf.Language.new(val) end
-    if key == "colr" then key = "palette" end
-    if key == "tlig" then key = "texlig" end
-    if key:len() == 4 then
-      -- 4-letter options are likely font features, but not always, so we do
-      -- some checks below. We put non feature options in the `options` dict.
-      if val == true or val == false then
-        val = (val and '+' or '-')..key
-        features[#features + 1] = harf.Feature.new(val)
-      elseif tonumber(val) then
-        val = '+'..key..'='..tonumber(val) - 1
-        features[#features + 1] = harf.Feature.new(val)
-      else
-        options[key] = val
-      end
-    else
-      options[key] = val
-    end
-  end
-  return define_font(specification)
+  return define_font(spec)
 end
 
 -- Register font readers. We override the default ones to always use HarfBuzz
