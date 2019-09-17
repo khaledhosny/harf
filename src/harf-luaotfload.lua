@@ -15,11 +15,6 @@ local harf = require("harf")
 
 local define_font     = harf.callbacks.define_font
 
--- Change luaotfload’s default of preferring system fonts.
-fonts.names.set_location_precedence {
-  "local", "texmf", "system"
-}
-
 local readers = {
   opentype = fonts.readers.opentype,
   otf = fonts.readers.otf,
