@@ -20,17 +20,6 @@ fonts.names.set_location_precedence {
   "local", "texmf", "system"
 }
 
-local callback_warning = true
-if callback_warning then
-  local callbacks = callback.list()
-  if callbacks["get_glyph_string"] == nil then
-    luatexbase.module_warning("harf",
-      "'get_glyph_string' callback is missing, " ..
-      "log messages might show garbage.")
-  end
-  callback_warning = false
-end
-
 local readers = {
   opentype = fonts.readers.opentype,
   otf = fonts.readers.otf,
