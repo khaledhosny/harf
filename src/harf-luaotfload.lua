@@ -13,7 +13,7 @@ end
 
 local harf = require("harf")
 
-local define_font     = harf.callbacks.define_font
+local define_font = harf.callbacks.define_font
 
 local readers = {
   opentype = fonts.readers.opentype,
