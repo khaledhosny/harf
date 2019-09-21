@@ -1,3 +1,5 @@
+***This is no longer maintained, future development will be integrated into [luaotfload]***
+
 Harf
 ====
 
@@ -18,6 +20,7 @@ There are few other projects for using HarfBuzz with LuaTeX:
 * [ufylayout]: A Lua module that uses [luaharfbuzz] and provides BiDi support
   as well.
 
+[luaotfload]: https://github.com/latex3/luaotfload
 [harfbuzz]: https://github.com/harfbuzz/harfbuzz
 [luaharfbuzz]: https://github.com/ufyTeX/luaharfbuzz/
 [luatex-harfbuzz]: https://github.com/tatzetwerk/luatex-harfbuzz
